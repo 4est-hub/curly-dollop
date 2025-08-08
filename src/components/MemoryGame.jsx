@@ -53,21 +53,27 @@ const MemoryGame = ({ images }) => {
   return (
     <div className="wrapper">
       <h1>{message}</h1>
-      <div className={selected.length === 12 ? 'tiles hyperspace' : 'tiles'}>
+      <div className={selected.length === 12 ? 'cards hyperspace' : 'cards'}>
         {shuffledImages.map((image, index) => {
-          if (selected.some(s => s.index === index)) {
-            return (
-              <div className="tile" key={index}>
-                <img
-                  key={image}
-                  src={image}
-                  style={{ width: "200px", height: "200px", objectFit: 'cover' }}
-                />
-              </div>
-            )
-          }
+          const isSelected = selected.some(s => s.index === index);
 
-          return (<div key={index} className="tile" onClick={() => handleClick({index, image})}></div>)
+          return (
+            <div
+              key={index}
+              className={`flip-card`}
+              onClick={() => !isSelected && handleClick({ index, image })}
+            >
+              <div className={`flip-card-inner ${isSelected ? 'flipped' : ''}`}>
+                <div className="flip-card-front">
+                </div>
+                <div className="flip-card-back">
+                  <img
+                    src={image}
+                  />
+                </div>
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>
